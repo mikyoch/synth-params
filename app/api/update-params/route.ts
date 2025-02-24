@@ -23,3 +23,22 @@ export async function PUT(req: Request) {
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
+
+export async function DELETE(req: Request) {
+  try {
+    const { uid, id } = await req.json();
+
+    if (!uid || !id) {
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
+
+    const deletedMiner = await prisma.params.delete({
+      where: { uid, id },
+    });
+
+    return NextResponse.json({ success: true, data: deletedMiner });
+  } catch (error) {
+    console.error("Error updating params:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
+}
