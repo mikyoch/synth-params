@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from "react"
-import { Row } from "./Param.Row"
 
 const initValue = {
   uid: 0,

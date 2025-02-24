@@ -14,7 +14,7 @@ export async function GET(request: Request,
       where: { uid: Number(uid) }, // Convert to number if uid is stored as INT
     });
 
-    if (!records || records?.length === 0) {
+    if (!records) {
       return NextResponse.json({ error: "No records found" }, { status: 404 });
     }
 
