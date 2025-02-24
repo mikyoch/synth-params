@@ -35,14 +35,14 @@ export default function ParamRow(props: Row) {
           gap: Number(gap),
         }),
       });
-  
+
       if (!response.ok) {
         throw new Error("Failed to update params");
       }
-  
+
       const data = await response.json();
       console.log("Update successful:", data);
-  
+      window.location.reload();
     } catch (e) {
       console.error(e);
       alert("Error occurred while updating the params");
@@ -51,16 +51,48 @@ export default function ParamRow(props: Row) {
       setIdle(true);
     }
   };
-  
+
+  const deleteMinerHandler = async () => {
+    const ok = window.confirm("Are you sure you want to delete this miner?")
+    if (!ok) return;
+
+    try {
+      setIdle(false);
+      const response = await fetch("/api/update-params", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: props.id,
+          uid: props.uid,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete params");
+      }
+
+      const data = await response.json();
+      console.log("Delete successful:", data);
+      window.location.reload();
+    } catch (e) {
+      console.error(e);
+      alert("Error occurred while deleting the params");
+    } finally {
+      setIdle(true);
+    }
+  }
 
   return <tr className="border border-white *:text-center" key={props.uid}>
     <td>{props.uid}</td>
-    <td><input className="text-center text-black disabled:text-white" disabled={mode !== 'edit' || !idle } value={dir} onChange={(e) => setDir(e.target.value)} placeholder={props.dir.toString()} type='number' /></td>
-    <td><input className="text-center text-black disabled:text-white" disabled={mode !== 'edit' || !idle } value={gap} onChange={(e) => setGap(e.target.value)} placeholder={props.gap.toString()} type='number' /></td>
+    <td><input className="text-center text-black disabled:text-white" disabled={mode !== 'edit' || !idle} value={dir} onChange={(e) => setDir(e.target.value)} placeholder={props.dir.toString()} type='number' /></td>
+    <td><input className="text-center text-black disabled:text-white" disabled={mode !== 'edit' || !idle} value={gap} onChange={(e) => setGap(e.target.value)} placeholder={props.gap.toString()} type='number' /></td>
     <td>{getHoursBetweenDates(new Date(), new Date(props.updatedAt))} hrs</td>
     <td>
       {mode === 'edit' && <button onClick={saveHandler} className="mr-5">Save</button>}
       <button onClick={() => setMode(mode === 'view' ? 'edit' : 'view')}>{mode === 'edit' ? "Cancel" : "Edit"}</button>
+      {
+        mode === 'view' && <button onClick={deleteMinerHandler} className="ml-5">Delete</button>
+      }
     </td>
   </tr>
 }
