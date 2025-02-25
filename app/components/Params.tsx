@@ -6,7 +6,7 @@ interface Props {
 }
 
 export default function Params(props: Props) {
-  return <table className="border border-white border-collapse">
+  return <table className="border border-white border-collapse mb-4">
     <thead>
       <tr className="border border-white">
         <th>UID</th>
