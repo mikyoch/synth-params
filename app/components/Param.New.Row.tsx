@@ -5,7 +5,7 @@ import { useState } from "react"
 
 const initValue = {
   uid: 0,
-  dir: '0',
+  dir: '[0]',
   gap: '0',
   index: 0,
 };
