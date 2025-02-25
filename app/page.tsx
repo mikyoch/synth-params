@@ -1,29 +1,29 @@
-export const dynamic = "force-dynamic";
+'use client'
 
-import Reward from "./components/Reward";
-import Score from "./components/Score";
-import Validate from "./components/Validate";
-import Notification from "./components/Notification";
-import prisma from "@/lib/prisma";
-import Params from "./components/Params";
+import { createClient } from '@/utils/supabase/client'
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
-export default async function Home() {
-  const data = await prisma.params.findMany({});
-  const minerIDs = data.map((item: any) => item.uid);
+export default function Login() {
+  const supabase = createClient();
+  const router = useRouter();
 
-  return (
-    <div className="mx-5 md:mx-10 flex flex-col">
-      {minerIDs.length !== 0 && (
-        <div className="flex flex-row gap-10 w-full mb-2">
-          <Validate miners={minerIDs} />
-          <Score miners={minerIDs} />
-          <Reward miners={minerIDs} />
-        </div>
-      )}
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase.auth.getSession()
+      if(data?.session && data?.session?.user?.user_metadata?.user_name === process.env.NEXT_PUBLIC_ADMIN_GITHUB_HANDLE) {
+        router.push('/dashboard')
+      }
+    })();
+  }, [])
 
-      <Params data={data} />
+  const loginHandler = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: 'github',
+    })
+  }
 
-      <Notification />
-    </div>
-  );
+  return <main className='flex justify-center items-center'>
+    <button className='px-5 py-2 rounded-md bg-white/10' onClick={loginHandler}>Login with Github</button>
+  </main>
 }
