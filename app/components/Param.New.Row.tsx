@@ -43,13 +43,13 @@ export default function NewParamRow() {
   }
 
   return <tr className="border border-white *:text-center bg-white/10">
-    <td><input className="text-center text-black disabled:text-white" placeholder="UID" value={form.uid} onChange={(e) => setForm({ ...form, uid: Number(e.target.value) })} type='number' disabled={isPending} /></td>
-    <td><input className="text-center text-black disabled:text-white" placeholder="Index" value={form.index} onChange={(e) => setForm({ ...form, index: Number(e.target.value) })} type='number' disabled={isPending} /></td>
+    <td><input className="text-center text-black disabled:text-white" placeholder="UID" value={form.uid} onChange={(e) => setForm({ ...form, uid: Number(e.target.value) })} disabled={isPending} /></td>
+    <td><input className="text-center text-black disabled:text-white" placeholder="Index" value={form.index} onChange={(e) => setForm({ ...form, index: Number(e.target.value) })} disabled={isPending} /></td>
     <td>
       <input className="text-center text-black disabled:text-white" placeholder="dir" value={form.dir} onChange={(e) => setForm({ ...form, dir: (e.target.value) })} type='text' disabled={isPending} />
     </td>
     <td>
-      <input className="text-center text-black disabled:text-white" placeholder="gap" value={form.gap} onChange={(e) => setForm({ ...form, gap: (e.target.value) })} type='number' disabled={isPending} />
+      <input className="text-center text-black disabled:text-white" placeholder="gap" value={form.gap} onChange={(e) => setForm({ ...form, gap: (e.target.value) })} disabled={isPending} />
     </td>
     <td>N/A</td>
     <td><button disabled={isPending} onClick={createMinerHandler}>{isPending ? "Creating" : "Create"}</button></td>

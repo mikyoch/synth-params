@@ -1,13 +1,25 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { z } from "zod";
+
+const MinerSchema = z.object({
+  uid: z.number(),
+  dir: z.string().min(1, "Direction is required").transform((val) => JSON.parse(val)),
+  gap: z.string(),
+  index: z.number() // Assuming index is optional
+});
+
 
 export async function POST(req: Request) {
   try {
-    const { uid, dir, gap } = await req.json();
+    const jsonData = await req.json();
+    const parsedData = MinerSchema.safeParse(jsonData);
 
-    if (!uid || dir === undefined || gap === undefined) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    if (!parsedData.success) {
+      return NextResponse.json({ error: parsedData.error.format() }, { status: 400 });
     }
+
+    const { uid, dir, gap, index } = parsedData.data;
 
     const miner = await prisma.params.findFirst({
       where: {
@@ -24,6 +36,7 @@ export async function POST(req: Request) {
         uid,
         dir: JSON.parse(dir),
         gap: Number(gap),
+        index,
       },
     });
 
