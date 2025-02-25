@@ -14,6 +14,7 @@ export async function PUT(req: Request) {
       data: {
         dir: dir,
         gap: Number(gap),
+        updatedAt: new Date(),
       },
     });
 
