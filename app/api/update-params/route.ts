@@ -12,7 +12,7 @@ export async function PUT(req: Request) {
     const updatedRecord = await prisma.params.update({
       where: { uid, id },
       data: {
-        dir: Number(dir),
+        dir: dir,
         gap: Number(gap),
       },
     });

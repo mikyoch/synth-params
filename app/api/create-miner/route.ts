@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     const createdMiner = await prisma.params.create({
       data: {
         uid,
-        dir: Number(dir),
+        dir: JSON.parse(dir),
         gap: Number(gap),
       },
     });

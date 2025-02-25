@@ -10,6 +10,7 @@ export default function Params(props: Props) {
     <thead>
       <tr className="border border-white">
         <th>UID</th>
+        <th>index</th>
         <th>dir</th>
         <th>gap</th>
         <th>Updated at</th>

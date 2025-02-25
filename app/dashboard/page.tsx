@@ -17,7 +17,6 @@ export default async function Home() {
   const supabase = createClient(cookieStore);
 
   const { data: userData } = await supabase.auth.getSession();
-  console.log('user data: ', userData?.session?.user?.user_metadata?.user_name)
   if (!userData?.session || userData?.session?.user?.user_metadata?.user_name !== process.env.NEXT_PUBLIC_ADMIN_GITHUB_HANDLE) {
     return redirect("/");
   }
@@ -35,6 +34,7 @@ export default async function Home() {
         </div>
       )}
 
+      {/* @ts-ignore prisma issue */}
       <Params data={data} />
 
       <LogOut />
