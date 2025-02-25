@@ -1,19 +1,33 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { z } from "zod";
+
+const MinerSchema = z.object({
+  id: z.number(),
+  uid: z.number(),
+  dir: z.array(z.number()),
+  gap: z.number(),
+  index: z.number() // Assuming index is optional
+});
+
 
 export async function PUT(req: Request) {
   try {
-    const { uid, dir, gap, id } = await req.json();
+    const jsonData = await req.json();
+    const parsedData = MinerSchema.safeParse(jsonData);
 
-    if (!uid || !id || dir === undefined || gap === undefined) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    if (!parsedData.success) {
+      return NextResponse.json({ error: parsedData.error.format() }, { status: 400 });
     }
+
+    const { uid, dir, gap, index, id } = parsedData.data;
 
     const updatedRecord = await prisma.params.update({
       where: { uid, id },
       data: {
         dir: dir,
         gap: Number(gap),
+        index,
         updatedAt: new Date(),
       },
     });
