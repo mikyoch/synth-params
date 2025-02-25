@@ -89,7 +89,7 @@ export default function ParamRow(props: Row) {
 
   return <tr className="border border-white *:text-center" key={props.uid}>
     <td>{props.uid}</td>
-    <td><input className="text-center text-black disabled:text-white" value={index} onChange={(e) => setIndex(Number(e.target.value))} type="number" /></td>
+    <td><input className="text-center text-black disabled:text-white" value={index} onChange={(e) => setIndex(Number(e.target.value))} type="number" disabled={mode !== 'edit' || !idle} /></td>
     <td><input className="text-center text-black disabled:text-white" disabled={mode !== 'edit' || !idle} value={dir} onChange={(e) => setDir(e.target.value)} placeholder={props.dir.toString()} type='string' /></td>
     <td><input className="text-center text-black disabled:text-white" disabled={mode !== 'edit' || !idle} value={gap} onChange={(e) => setGap(e.target.value)} placeholder={props.gap.toString()} type='number' /></td>
     <td>{getHoursBetweenDates(new Date(), new Date(props.updatedAt))} hrs</td>
