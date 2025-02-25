@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export interface Row {
@@ -7,8 +8,9 @@ export interface Row {
   uid: number,
   createdAt: Date,
   updatedAt: Date,
-  dir: number,
-  gap: number
+  dir: number[],
+  gap: number,
+  index: number
 }
 
 function getHoursBetweenDates(date1: Date, date2: Date) {
@@ -17,9 +19,12 @@ function getHoursBetweenDates(date1: Date, date2: Date) {
 }
 
 export default function ParamRow(props: Row) {
+  const router = useRouter();
+
   const [mode, setMode] = useState<'view' | 'edit'>('view');
-  const [dir, setDir] = useState<string>(props.dir.toString());
+  const [dir, setDir] = useState<string>(JSON.stringify(props.dir));
   const [gap, setGap] = useState<string>(props.gap.toString());
+  const [index, setIndex] = useState<number>(props.index);
   const [idle, setIdle] = useState<boolean>(true);
 
   const saveHandler = async () => {
@@ -31,7 +36,7 @@ export default function ParamRow(props: Row) {
         body: JSON.stringify({
           id: props.id,
           uid: props.uid,
-          dir: Number(dir),
+          dir: JSON.parse(dir),
           gap: Number(gap),
         }),
       });
@@ -42,7 +47,7 @@ export default function ParamRow(props: Row) {
 
       const data = await response.json();
       console.log("Update successful:", data);
-      window.location.reload();
+      router.refresh();
     } catch (e) {
       console.error(e);
       alert("Error occurred while updating the params");
@@ -73,7 +78,7 @@ export default function ParamRow(props: Row) {
 
       const data = await response.json();
       console.log("Delete successful:", data);
-      window.location.reload();
+      router.refresh();
     } catch (e) {
       console.error(e);
       alert("Error occurred while deleting the params");
@@ -84,7 +89,8 @@ export default function ParamRow(props: Row) {
 
   return <tr className="border border-white *:text-center" key={props.uid}>
     <td>{props.uid}</td>
-    <td><input className="text-center text-black disabled:text-white" disabled={mode !== 'edit' || !idle} value={dir} onChange={(e) => setDir(e.target.value)} placeholder={props.dir.toString()} type='number' /></td>
+    <td><input className="text-center text-black disabled:text-white" value={index} onChange={(e) => setIndex(Number(e.target.value))} type="number" disabled={mode !== 'edit' || !idle} /></td>
+    <td><input className="text-center text-black disabled:text-white" disabled={mode !== 'edit' || !idle} value={dir} onChange={(e) => setDir(e.target.value)} placeholder={props.dir.toString()} type='string' /></td>
     <td><input className="text-center text-black disabled:text-white" disabled={mode !== 'edit' || !idle} value={gap} onChange={(e) => setGap(e.target.value)} placeholder={props.gap.toString()} type='number' /></td>
     <td>{getHoursBetweenDates(new Date(), new Date(props.updatedAt))} hrs</td>
     <td>
