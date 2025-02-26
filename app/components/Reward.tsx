@@ -11,7 +11,7 @@ const Reward = ({ miners }: { miners: number[] }) => {
     if (isLoading) return <div>Loading...</div>
     if (error) return <div>Error loading data</div>
     if (data) {
-        const sortedData = data.sort((a: any, b: any) => b.incentive - a.incentive)
+        const sortedData = data?.sort((a: any, b: any) => b.incentive - a.incentive)
         const addedGrade = sortedData.map((item: any, index: number) => ({
             ...item,
             grade: index + 1,
