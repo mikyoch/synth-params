@@ -8,11 +8,12 @@ const initValue = {
   dir: '[0]',
   gap: '0',
   index: 0,
+  owner: "COCO",
 };
 
 export default function NewParamRow() {
   const router = useRouter();
-  const [form, setForm] = useState<{ uid: number, dir: string, gap: string, index: number }>(initValue)
+  const [form, setForm] = useState<{ uid: number, dir: string, gap: string, index: number, owner: string }>(initValue)
   const [isPending, setIsPending] = useState<boolean>(false)
 
   const createMinerHandler = async () => {
@@ -43,7 +44,14 @@ export default function NewParamRow() {
   }
 
   return <tr className="border border-white *:text-center bg-white/10">
+    <td>+</td>
     <td><input className="text-center text-black disabled:text-white" placeholder="UID" value={form.uid} onChange={(e) => setForm({ ...form, uid: Number(e.target.value) })} disabled={isPending} /></td>
+    <td>
+      <select value={form.owner} onChange={(e) => setForm({...form, owner: e.target.value})} className="text-black">
+        <option>COCO</option>
+        <option>K2</option>
+      </select>
+    </td>
     <td><input className="text-center text-black disabled:text-white" placeholder="Index" value={form.index} onChange={(e) => setForm({ ...form, index: Number(e.target.value) })} disabled={isPending} /></td>
     <td>
       <input className="text-center text-black disabled:text-white" placeholder="dir" value={form.dir} onChange={(e) => setForm({ ...form, dir: (e.target.value) })} type='text' disabled={isPending} />

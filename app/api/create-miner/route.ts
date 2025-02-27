@@ -6,7 +6,8 @@ const MinerSchema = z.object({
   uid: z.number(),
   dir: z.string(),
   gap: z.string(),
-  index: z.number() // Assuming index is optional
+  index: z.number(),
+  owner: z.string()
 });
 
 
@@ -19,7 +20,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: parsedData.error.format() }, { status: 400 });
     }
 
-    const { uid, dir, gap, index } = parsedData.data;
+    const { uid, dir, gap, index, owner } = parsedData.data;
 
     const miner = await prisma.params.findFirst({
       where: {
@@ -37,6 +38,8 @@ export async function POST(req: Request) {
         dir: JSON.parse(dir),
         gap: Number(gap),
         index,
+        // @ts-ignore owner is ENUM from the frontend
+        owner,
       },
     });
 
