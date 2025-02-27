@@ -4,7 +4,7 @@ import { z } from "zod";
 
 const MinerSchema = z.object({
   uid: z.number(),
-  dir: z.string().min(1, "Direction is required").transform((val) => JSON.parse(val)),
+  dir: z.string(),
   gap: z.string(),
   index: z.number() // Assuming index is optional
 });
