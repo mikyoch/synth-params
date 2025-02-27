@@ -6,7 +6,7 @@ import useSWR from 'swr'
 const Score = ({ miners }: { miners: number[] }) => {
     const { data, error, isLoading } = useSWR('https://synth.mode.network/validation/scores/latest', fetcher, {
         revalidateOnFocus: false,
-        refreshInterval: 2000
+        refreshInterval: 200000
     })
     if (isLoading) return <div>Loading...</div>
     if (error) return <div>Error loading data</div>

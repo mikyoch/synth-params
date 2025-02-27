@@ -9,7 +9,7 @@ type Props = {
 const ValidateItem = ({ miner }: Props) => {
     const { data, error, isLoading } = useSWR(`https://synth.mode.network/validation/miner?uid=${miner}`, fetcher, {
         revalidateOnFocus: false,
-        refreshInterval: 2000
+        refreshInterval: 200000
     })
 
     if (isLoading) return <div>Loading...</div>

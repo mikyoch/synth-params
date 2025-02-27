@@ -6,7 +6,7 @@ import useSWR from 'swr'
 const Reward = ({ miners }: { miners: number[] }) => {
     const { data, error, isLoading } = useSWR('/api/getRewards', fetcher, {
         revalidateOnFocus: false,
-        refreshInterval: 2000
+        refreshInterval: 200000
     })
     if (isLoading) return <div>Loading...</div>
     if (error) return <div>Error loading data</div>
