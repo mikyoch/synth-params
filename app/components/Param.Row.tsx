@@ -3,6 +3,11 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+enum Owner {
+  COCO = "COCO",
+  K2 = "K2",
+}
+
 export interface Row {
   id: number,
   uid: number,
@@ -10,7 +15,8 @@ export interface Row {
   updatedAt: Date,
   dir: number[],
   gap: number,
-  index: number
+  index: number,
+  owner: Owner,
 }
 
 function getHoursBetweenDates(date1: Date, date2: Date) {
@@ -18,7 +24,7 @@ function getHoursBetweenDates(date1: Date, date2: Date) {
   return Number(diffInMs / (1000 * 60 * 60)).toFixed(2); // Convert ms to hours
 }
 
-export default function ParamRow(props: Row) {
+export default function ParamRow(props: Row & { noIndex: number }) {
   const router = useRouter();
 
   const [mode, setMode] = useState<'view' | 'edit'>('view');
@@ -26,6 +32,7 @@ export default function ParamRow(props: Row) {
   const [gap, setGap] = useState<string>(props.gap.toString());
   const [index, setIndex] = useState<number>(props.index);
   const [idle, setIdle] = useState<boolean>(true);
+  const [owner, setOwner] = useState<Owner>(props.owner)
 
   const saveHandler = async () => {
     try {
@@ -39,6 +46,7 @@ export default function ParamRow(props: Row) {
           dir: JSON.parse(dir),
           gap: Number(gap),
           index: index,
+          owner,
         }),
       });
 
@@ -88,8 +96,14 @@ export default function ParamRow(props: Row) {
     }
   }
 
-  return <tr className="border border-white *:text-center" key={props.uid}>
+  return <tr className="border border-white *:text-center hover:bg-white/10 transition-all duration-150" key={props.uid}>
+    <td>{props.noIndex}</td>
     <td>{props.uid}</td>
+    <td>
+      {
+        mode === 'edit' ? <select className="text-black" value={owner} onChange={(e) => setOwner(e.target.value as Owner)}><option>COCO</option><option>K2</option></select> : props.owner
+      }
+    </td>
     <td><input className="text-center text-black disabled:text-white" value={index} onChange={(e) => setIndex(Number(e.target.value))} type="text" disabled={mode !== 'edit' || !idle} /></td>
     <td><input className="text-center text-black disabled:text-white" disabled={mode !== 'edit' || !idle} value={dir} onChange={(e) => setDir(e.target.value)} placeholder={props.dir.toString()} type='text' /></td>
     <td><input className="text-center text-black disabled:text-white" disabled={mode !== 'edit' || !idle} value={gap} onChange={(e) => setGap(e.target.value)} placeholder={props.gap.toString()} type='text' /></td>

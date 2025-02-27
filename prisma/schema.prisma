@@ -16,4 +16,10 @@ model params {
   dir       Json
   gap       Float
   index     Int      @default(0)
+  owner     Owner    @default(COCO)
+}
+
+enum Owner {
+  COCO
+  K2
 }

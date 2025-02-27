@@ -7,7 +7,8 @@ const MinerSchema = z.object({
   uid: z.number(),
   dir: z.array(z.number()),
   gap: z.number(),
-  index: z.number() // Assuming index is optional
+  index: z.number(),
+  owner: z.string(),
 });
 
 
@@ -20,7 +21,7 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: parsedData.error.format() }, { status: 400 });
     }
 
-    const { uid, dir, gap, index, id } = parsedData.data;
+    const { uid, dir, gap, index, id, owner } = parsedData.data;
 
     const updatedRecord = await prisma.params.update({
       where: { uid, id },
@@ -28,6 +29,8 @@ export async function PUT(req: Request) {
         dir: dir,
         gap: Number(gap),
         index,
+        // @ts-ignore getting enum from the frontend
+        owner,
         updatedAt: new Date(),
       },
     });
