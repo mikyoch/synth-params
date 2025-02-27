@@ -22,4 +22,5 @@ model params {
 enum Owner {
   COCO
   K2
+  OBSERVER
 }

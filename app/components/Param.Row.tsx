@@ -1,12 +1,8 @@
 'use client'
 
+import { Owner } from '@prisma/client'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-
-enum Owner {
-  COCO = 'COCO',
-  K2 = 'K2',
-}
 
 export interface Row {
   id: number
@@ -73,7 +69,7 @@ export default function ParamRow(props: Row & { noIndex: number }) {
       'Are you sure you want to delete this miner? Type UID to confirm.'
     )
     if (Number(uidToRemove) !== Number(props.uid)) {
-      alert("You typed wrong uid to remove! Operation canceled")
+      alert('You typed wrong uid to remove! Operation canceled')
       return
     }
 
@@ -117,8 +113,9 @@ export default function ParamRow(props: Row & { noIndex: number }) {
             value={owner}
             onChange={(e) => setOwner(e.target.value as Owner)}
           >
-            <option>COCO</option>
-            <option>K2</option>
+            {Object.values(Owner).map((item) => (
+              <option>{item}</option>
+            ))}
           </select>
         ) : (
           props.owner
