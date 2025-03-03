@@ -11,7 +11,7 @@ export default function Login() {
   useEffect(() => {
     (async () => {
       const { data } = await supabase.auth.getSession()
-      if(data?.session && data?.session?.user?.user_metadata?.user_name === process.env.NEXT_PUBLIC_ADMIN_GITHUB_HANDLE) {
+      if (data?.session && process.env.NEXT_PUBLIC_ADMIN_GITHUB_HANDLE?.split(",").includes(data?.session?.user?.user_metadata?.user_name)) {
         router.push('/dashboard')
       }
     })();

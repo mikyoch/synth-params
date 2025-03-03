@@ -17,7 +17,7 @@ export default async function Home() {
   const supabase = createClient(cookieStore);
 
   const { data: userData } = await supabase.auth.getSession();
-  if (!userData?.session || userData?.session?.user?.user_metadata?.user_name !== process.env.NEXT_PUBLIC_ADMIN_GITHUB_HANDLE) {
+  if (!userData?.session || !process.env.NEXT_PUBLIC_ADMIN_GITHUB_HANDLE?.split(",").includes(userData?.session?.user?.user_metadata?.user_name)) {
     return redirect("/");
   }
 
