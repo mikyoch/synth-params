@@ -90,9 +90,9 @@ const Reward = ({ miners }: { miners: number[] }) => {
                   <td className="text-center">
                     {Number(item.daily).toFixed(3)}
                   </td>
-                  <td className="text-center">{item.coldkey}</td>
+                  <td className="text-center">{item?.coldkey?.slice(0, 5) + "..."}</td>
                   <td className="text-center">
-                    {new Date(item.registeredAt).toLocaleDateString()}
+                    {new Date(item.registeredAt).toLocaleString()}
                   </td>
                 </tr>
               ))}
