@@ -64,7 +64,7 @@ const Reward = ({ miners }: { miners: number[] }) => {
       <div className="w-full p-10 border border-white rounded-2xl border-collapse">
         <div className="flex flex-col gap-5">
           <div className="text-2xl font-bold text-center">Rewards</div>
-          <table>
+          <table className="text-sm">
             <thead>
               <tr className="border border-white">
                 <th className="py-2">UID</th>
@@ -74,7 +74,7 @@ const Reward = ({ miners }: { miners: number[] }) => {
                 {/* <th className='py-2'>Performance</th> */}
                 <th className="py-2">Daily</th>
                 <th className="py-2">Coldkey</th>
-                <th className="py-2">RegisteredTime</th>
+                <th className="py-2">Time</th>
               </tr>
             </thead>
             <tbody>
@@ -90,7 +90,7 @@ const Reward = ({ miners }: { miners: number[] }) => {
                   <td className="text-center">
                     {Number(item.daily).toFixed(3)}
                   </td>
-                  <td className="text-center">{item?.coldkey?.slice(0, 5) + "..."}</td>
+                  <td className="text-center">{item?.coldkey?.slice(0, 7) + "..."}</td>
                   <td className="text-center">
                     {new Date(item.registeredAt).toLocaleString()}
                   </td>
