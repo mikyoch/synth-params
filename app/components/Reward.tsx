@@ -13,15 +13,15 @@ const Reward = ({ miners }: { miners: number[] }) => {
   if (data) {
     const sortedData = data?.sort(
       (a: any, b: any) => b.incentive - a.incentive
-    );
-    const addedGrade = sortedData.map((item: any, index: number) => ({
+    ) || [];
+    const addedGrade = sortedData?.map((item: any, index: number) => ({
       ...item,
       grade: index + 1,
     }));
-    const filteredData = addedGrade.filter((item: any) =>
+    const filteredData = addedGrade?.filter((item: any) =>
       miners?.includes(item.uid)
     );
-    const Result = filteredData.map((item: any) => ({
+    const Result = filteredData?.map((item: any) => ({
       Grade: item.grade,
       UID: item.uid,
       Stake: item.stake,
@@ -34,11 +34,11 @@ const Reward = ({ miners }: { miners: number[] }) => {
       registeredAt: item?.registeredAt,
       ip: item.ip,
     }));
-    const total_stake = filteredData.reduce(
+    const total_stake = filteredData?.reduce(
       (acc: number, item: any) => acc + item.stake,
       0
     );
-    const total_daily = filteredData.reduce(
+    const total_daily = filteredData?.reduce(
       (acc: number, item: any) => acc + item.taoPerDay,
       0
     );
