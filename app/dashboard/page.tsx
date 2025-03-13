@@ -11,17 +11,24 @@ import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import LogOut from "../components/Logout";
+import AddColdkey from "../components/AddColdkey";
 
 export default async function Home() {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
   const { data: userData } = await supabase.auth.getSession();
-  if (!userData?.session || !process.env.NEXT_PUBLIC_ADMIN_GITHUB_HANDLE?.split(",").includes(userData?.session?.user?.user_metadata?.user_name)) {
+  if (
+    !userData?.session ||
+    !process.env.NEXT_PUBLIC_ADMIN_GITHUB_HANDLE?.split(",").includes(
+      userData?.session?.user?.user_metadata?.user_name
+    )
+  ) {
     return redirect("/");
   }
 
   const data = await prisma.params.findMany({});
+  const coldkeys = await prisma.coldkeys.findMany({});
   const minerIDs = data.map((item: any) => item.uid);
 
   return (
@@ -30,12 +37,14 @@ export default async function Home() {
         <div className="flex flex-row gap-10 w-full mb-2">
           <Validate miners={minerIDs} />
           <Score miners={minerIDs} />
-          <Reward miners={minerIDs} />
+          <Reward miners={minerIDs} coldkeys={coldkeys} />
         </div>
       )}
 
       {/* @ts-ignore prisma issue */}
       <Params data={data} />
+
+      <AddColdkey />
 
       <LogOut />
 

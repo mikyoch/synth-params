@@ -24,3 +24,10 @@ enum Owner {
   K2
   OBSERVER
 }
+
+model coldkeys {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  coldkey   String
+}

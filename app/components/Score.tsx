@@ -86,7 +86,11 @@ const Score = ({ miners }: { miners: number[] }) => {
       </div>
     );
   } else {
-    return <div>Error loading data</div>;
+    return (
+      <div className="w-fit p-10 border border-white rounded-2xl text-md">
+        Error loading data
+      </div>
+    );
   }
 };
 
