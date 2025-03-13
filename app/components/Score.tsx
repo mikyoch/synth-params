@@ -12,12 +12,12 @@ const Score = ({ miners }: { miners: number[] }) => {
     if (error) return <div>Error loading data</div>
     if (data) {
         const scoreSortedData = data?.sort((a: any, b: any) => b.prompt_score - a.prompt_score)
-        const addedGradeScore = scoreSortedData.map((item: any, index: number) => ({
+        const addedGradeScore = scoreSortedData?.map((item: any, index: number) => ({
             ...item,
             grade: index + 1,
         }))
 
-        const filteredData = addedGradeScore.filter((item: any) =>
+        const filteredData = addedGradeScore?.filter((item: any) =>
             miners?.includes(item.miner_uid)
         );
 
