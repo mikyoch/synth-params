@@ -13,7 +13,7 @@ const Score = ({ miners }: { miners: number[] }) => {
     }
   );
   if (isLoading) return <div>Loading...</div>;
-  if (data && Array.isArray(data)) {
+  if (data && !error && Array.isArray(data)) {
     const scoreSortedData = data?.sort(
       (a: any, b: any) => b.prompt_score - a.prompt_score
     );
