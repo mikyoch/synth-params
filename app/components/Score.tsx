@@ -14,9 +14,12 @@ const Score = ({ miners }: { miners: number[] }) => {
   );
   if (isLoading) return <div>Loading...</div>;
   if (data && !error && Array.isArray(data)) {
-    const scoreSortedData = data?.sort(
-      (a: any, b: any) => b.prompt_score - a.prompt_score
-    );
+    const scoreSortedData = data?.sort((a: any, b: any) => {
+      const aValue = a.crps < 0 ? 1e8 : a.crps;
+      const bValue = b.crps < 0 ? 1e8 : b.crps;
+      return aValue - bValue;
+    });
+
     const addedGradeScore = scoreSortedData?.map(
       (item: any, index: number) => ({
         ...item,
@@ -31,13 +34,13 @@ const Score = ({ miners }: { miners: number[] }) => {
     if (window) {
       (window as any).my_miner_top_score_uid = filteredData[0]?.miner_uid;
       (window as any).my_miner_top_score_grade = filteredData[0]?.grade;
-      (window as any).my_miner_top_score = filteredData[0]?.prompt_score;
+      (window as any).my_miner_top_score = filteredData[0]?.crps;
 
       let grade = 0,
         score = 0;
       for (let i = 0; i < filteredData.length; i++) {
         grade += filteredData[i].grade;
-        score += filteredData[i].prompt_score;
+        score += filteredData[i].crps;
       }
       (window as any).my_avg_score = score / filteredData.length;
       (window as any).my_avg_score_grade = grade / filteredData.length;
