@@ -13,7 +13,7 @@ const Reward = ({ miners }: { miners: number[] }) => {
   if (data) {
     const sortedData = data?.sort(
       (a: any, b: any) => b.incentive - a.incentive
-    ) || [];
+    );
     const addedGrade = sortedData?.map((item: any, index: number) => ({
       ...item,
       grade: index + 1,

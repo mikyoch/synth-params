@@ -11,7 +11,7 @@ const Score = ({ miners }: { miners: number[] }) => {
     if (isLoading) return <div>Loading...</div>
     if (error) return <div>Error loading data</div>
     if (data) {
-        const scoreSortedData = data.sort((a: any, b: any) => b.prompt_score - a.prompt_score)
+        const scoreSortedData = data?.sort((a: any, b: any) => b.prompt_score - a.prompt_score)
         const addedGradeScore = scoreSortedData.map((item: any, index: number) => ({
             ...item,
             grade: index + 1,
