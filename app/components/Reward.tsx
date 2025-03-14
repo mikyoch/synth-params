@@ -44,8 +44,7 @@ const Reward = ({
   };
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading data</div>;
-  if (data) {
+  if (data && !error && Array.isArray(data)) {
     const sortedData = data?.sort(
       (a: any, b: any) => b.incentive - a.incentive
     );
@@ -144,6 +143,12 @@ const Reward = ({
             <span>Total Stake: {total_stake}</span>
           </div>
         </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className="w-full p-10 border border-white rounded-2xl border-collapse">
+        Error loading data
       </div>
     );
   }
