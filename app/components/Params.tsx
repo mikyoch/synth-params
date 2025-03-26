@@ -33,11 +33,11 @@ export default function Params(props: Props) {
       </thead>
       <tbody>
         {props?.data
-          ?.sort((a, b) =>
-            gapSort === "asc"
-              ? Math.abs(b.gap - a.gap)
-              : Math.abs(a.gap - b.gap)
-          )
+          ?.sort((a, b) => {
+            if (a.gap === b.gap)
+              return Math.abs(a.dir[a.index]) - Math.abs(b.dir[a.index]);
+            return gapSort === "asc" ? b.gap - a.gap : a.gap - b.gap;
+          })
           ?.map((item, index) => (
             <ParamRow {...item} key={item.uid} noIndex={index + 1} />
           ))}
