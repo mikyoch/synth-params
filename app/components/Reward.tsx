@@ -61,7 +61,7 @@ const Reward = ({
       Stake: item.stake,
       Incentive: item.incentive,
       Performance: item.minerPerformance,
-      daily: item.taoPerDay,
+      daily: item.alphaPerDay,
       Score: item.score,
       coldkey: item?.coldkey,
       registeredAtBlock: item?.registeredAtBlock,
@@ -73,7 +73,7 @@ const Reward = ({
       0
     );
     const total_daily = filteredData?.reduce(
-      (acc: number, item: any) => acc + item.taoPerDay,
+      (acc: number, item: any) => acc + item.alphaPerDay,
       0
     );
     if (window) {
