@@ -17,12 +17,8 @@ model params {
   gap       Float
   index     Int      @default(0)
   owner     Owner    @default(COCO)
-}
-
-enum Owner {
-  COCO
-  K2
-  OBSERVER
+  dirEth    Json     @default("[0]")
+  gapEth    Float    @default(0.008)
 }
 
 model coldkeys {
@@ -30,4 +26,23 @@ model coldkeys {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
   coldkey   String
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model params_duplicate {
+  id        Int      @id @default(autoincrement())
+  uid       Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  dir       Json
+  gap       Float
+  index     Int      @default(0)
+  owner     Owner    @default(COCO)
+}
+
+enum Owner {
+  COCO
+  K2
+  OBSERVER
 }

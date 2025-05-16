@@ -10,6 +10,7 @@ interface Props {
 
 export default function Params(props: Props) {
   const [gapSort, setGapSort] = useState<"asc" | "desc">("asc");
+  const [gapEthSort, setGapEthSort] = useState<"asc" | "desc">("asc");
 
   return (
     <table className="border border-white border-collapse mb-4">
@@ -26,6 +27,14 @@ export default function Params(props: Props) {
           >
             gap{" "}
             <span className={gapSort === "asc" ? "" : "rotate-180"}>⬆️</span>
+          </th>
+          <th>dirEth</th>
+          <th
+            className="cursor-pointer flex justify-center items-center gap-x-1"
+            onClick={() => setGapEthSort(gapEthSort === "asc" ? "desc" : "asc")}
+          >
+            gapEth{" "}
+            <span className={gapEthSort === "asc" ? "" : "rotate-180"}>⬆️</span>
           </th>
           <th>Updated at</th>
           <th>Action</th>
