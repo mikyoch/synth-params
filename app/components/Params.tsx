@@ -10,7 +10,7 @@ interface Props {
 
 export default function Params(props: Props) {
   const [gapSort, setGapSort] = useState<"asc" | "desc">("asc");
-  const [gapEthSort, setGapEthSort] = useState<"asc" | "desc">("asc");
+  const [gapEthSort, setGapEthSort] = useState<"asc" | "desc">("desc");
 
   return (
     <table className="border border-white border-collapse mb-4">
@@ -43,6 +43,15 @@ export default function Params(props: Props) {
       <tbody>
         {props?.data
           ?.sort((a, b) => {
+            if (gapEthSort === "asc") {
+              if (a.gapEth === b.gapEth)
+                return (
+                  Math.abs(a.dirEth[a.index]) - Math.abs(b.dirEth[a.index])
+                );
+              return gapEthSort === "asc"
+                ? b.gapEth - a.gapEth
+                : a.gapEth - b.gapEth;
+            }
             if (a.gap === b.gap)
               return Math.abs(a.dir[a.index]) - Math.abs(b.dir[a.index]);
             return gapSort === "asc" ? b.gap - a.gap : a.gap - b.gap;
