@@ -1,11 +1,13 @@
 "use client";
 import { fetcher } from "@/utils/fetcher";
-import React from "react";
+import React, { useState } from "react";
 import useSWR from "swr";
 
 const Score = ({ miners }: { miners: number[] }) => {
+  const [asset, setAsset] = useState("ETH");
+
   const { data, error, isLoading } = useSWR(
-    "https://synth.mode.network/validation/scores/latest",
+    `https://synth.mode.network/validation/scores/latest?asset=${asset}`,
     fetcher,
     {
       revalidateOnFocus: false,
@@ -55,7 +57,16 @@ const Score = ({ miners }: { miners: number[] }) => {
     return (
       <div className="w-fit p-10 border border-white rounded-2xl">
         <div className="flex flex-col gap-5">
-          <div className="text-2xl font-bold text-center">Score</div>
+          <div className="flex flex-row items-center justify-between">
+            <div className="text-2xl font-bold text-center">Score</div>
+            <select
+              className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+              onChange={(e) => setAsset(e.target.value)}
+            >
+              <option value="ETH">ETH</option>
+              <option value="BTC">BTC</option>
+            </select>
+          </div>
           <table className="w-full table-auto">
             <thead>
               <tr>
