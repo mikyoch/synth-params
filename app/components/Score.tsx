@@ -61,10 +61,12 @@ const Score = ({ miners }: { miners: number[] }) => {
             <div className="text-2xl font-bold text-center">Score</div>
             <select
               className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+              value={asset}
               onChange={(e) => setAsset(e.target.value)}
             >
               <option value="ETH">ETH</option>
               <option value="BTC">BTC</option>
+              <option value="XAU">XAU</option>
             </select>
           </div>
           <table className="w-full table-auto">
