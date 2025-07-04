@@ -11,6 +11,7 @@ interface Props {
 export default function Params(props: Props) {
   const [gapSort, setGapSort] = useState<"asc" | "desc">("asc");
   const [gapEthSort, setGapEthSort] = useState<"asc" | "desc">("desc");
+  const [gapXAUSort, setGapXAUSort] = useState<"asc" | "desc">("desc");
 
   return (
     <table className="border border-white border-collapse mb-4">
@@ -22,19 +23,39 @@ export default function Params(props: Props) {
           <th>index</th>
           <th>dir</th>
           <th
-            className="cursor-pointer flex justify-center items-center gap-x-1"
-            onClick={() => setGapSort(gapSort === "asc" ? "desc" : "asc")}
+            className="cursor-pointer flex justify-center items-center gap-x-1 mx-auto"
+            onClick={() => {
+              setGapSort("asc");
+              setGapEthSort("desc");
+              setGapXAUSort("desc");
+            }}
           >
             gap{" "}
             <span className={gapSort === "asc" ? "" : "rotate-180"}>⬆️</span>
           </th>
           <th>dirEth</th>
           <th
-            className="cursor-pointer flex justify-center items-center gap-x-1"
-            onClick={() => setGapEthSort(gapEthSort === "asc" ? "desc" : "asc")}
+            className="cursor-pointer flex justify-center items-center gap-x-1 mx-auto"
+            onClick={() => {
+              setGapSort("desc");
+              setGapEthSort("asc");
+              setGapXAUSort("desc");
+            }}
           >
             gapEth{" "}
             <span className={gapEthSort === "asc" ? "" : "rotate-180"}>⬆️</span>
+          </th>
+          <th>dirXAU</th>
+          <th
+            className="cursor-pointer flex justify-center items-center gap-x-1 mx-auto"
+            onClick={() => {
+              setGapSort("desc");
+              setGapEthSort("desc");
+              setGapXAUSort("asc");
+            }}
+          >
+            gapXAU{" "}
+            <span className={gapXAUSort === "asc" ? "" : "rotate-180"}>⬆️</span>
           </th>
           <th>Updated at</th>
           <th>Action</th>
@@ -43,6 +64,15 @@ export default function Params(props: Props) {
       <tbody>
         {props?.data
           ?.sort((a, b) => {
+            if (gapXAUSort === "asc") {
+              if (a.gapXAU === b.gapXAU)
+                return (
+                  Math.abs(a.dirXAU[a.index]) - Math.abs(b.dirXAU[a.index])
+                );
+              return gapXAUSort === "asc"
+                ? b.gapXAU - a.gapXAU
+                : a.gapXAU - b.gapXAU;
+            }
             if (gapEthSort === "asc") {
               if (a.gapEth === b.gapEth)
                 return (

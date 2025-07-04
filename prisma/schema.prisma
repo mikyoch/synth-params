@@ -18,7 +18,9 @@ model params {
   index     Int      @default(0)
   owner     Owner    @default(COCO)
   dirEth    Json     @default("[0]")
-  gapEth    Float    @default(0.008)
+  gapEth    Float
+  dirXAU    Json     @default("[0]")
+  gapXAU    Float    @default(0.0015)
 }
 
 model coldkeys {
@@ -39,6 +41,8 @@ model params_duplicate {
   gap       Float
   index     Int      @default(0)
   owner     Owner    @default(COCO)
+  dirEth    Json     @default("[0]")
+  gapEth    Float    @default(0.008)
 }
 
 enum Owner {

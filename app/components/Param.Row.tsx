@@ -13,6 +13,8 @@ export interface Row {
   gap: number;
   dirEth: number[];
   gapEth: number;
+  dirXAU: number[];
+  gapXAU: number;
   index: number;
   owner: Owner;
 }
@@ -32,6 +34,8 @@ export default function ParamRow(props: Row & { noIndex: number }) {
   const [gap, setGap] = useState<string>(props.gap.toString());
   const [dirEth, setDirEth] = useState<string>(JSON.stringify(props.dirEth));
   const [gapEth, setGapEth] = useState<string>(props.gapEth.toString());
+  const [dirXAU, setDirXAU] = useState<string>(JSON.stringify(props.dirXAU));
+  const [gapXAU, setGapXAU] = useState<string>(props.gapXAU?.toString());
   const [index, setIndex] = useState<number>(props.index);
   const [idle, setIdle] = useState<boolean>(true);
   const [owner, setOwner] = useState<Owner>(props.owner);
@@ -49,6 +53,8 @@ export default function ParamRow(props: Row & { noIndex: number }) {
           gap: Number(gap),
           dirEth: JSON.parse(dirEth),
           gapEth: Number(gapEth),
+          dirXAU: JSON.parse(dirXAU),
+          gapXAU: Number(gapXAU),
           index: index,
           owner,
         }),
@@ -173,6 +179,26 @@ export default function ParamRow(props: Row & { noIndex: number }) {
           value={gapEth}
           onChange={(e) => setGapEth(e.target.value)}
           placeholder={props.gapEth.toString()}
+          type="text"
+        />
+      </td>
+      <td>
+        <input
+          className="text-center text-black disabled:text-white"
+          disabled={mode !== "edit" || !idle}
+          value={dirXAU}
+          onChange={(e) => setDirXAU(e.target.value)}
+          placeholder={props.dirXAU?.toString()}
+          type="text"
+        />
+      </td>
+      <td>
+        <input
+          className="text-center text-black disabled:text-white"
+          disabled={mode !== "edit" || !idle}
+          value={gapXAU}
+          onChange={(e) => setGapXAU(e.target.value)}
+          placeholder={props.gapXAU?.toString()}
           type="text"
         />
       </td>

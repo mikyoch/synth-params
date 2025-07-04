@@ -25,3 +25,12 @@ body {
     text-wrap: balance;
   }
 }
+
+th, td {
+  max-width: 150px;
+}
+
+input {
+  min-width: 10px;
+  max-width: 150px;
+}
