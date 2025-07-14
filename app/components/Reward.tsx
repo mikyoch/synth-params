@@ -58,28 +58,29 @@ const Reward = ({
     const Result = filteredData?.map((item: any) => ({
       Grade: item.grade,
       UID: item.uid,
-      Stake: item.stake,
+      Stake: item.alpha_stake,
+      TaoStake: item.tao_stake,
       Incentive: item.incentive,
-      Performance: item.minerPerformance,
-      daily: item.alphaPerDay,
+      Performance: item.miner_performance,
+      daily: item.alpha_per_day,
       Score: item.score,
-      coldkey: item?.coldkey,
-      registeredAtBlock: item?.registeredAtBlock,
-      registeredAt: item?.registeredAt,
-      ip: item.ip,
+      coldkey: item?.owner,
+      registeredAtBlock: item?.block_at_registration,
+      registeredAt: item?.registration_block_time,
+      ip: item.axon,
     }));
     const total_stake = filteredData?.reduce(
-      (acc: number, item: any) => acc + item.stake,
+      (acc: number, item: any) => acc + item.alpha_stake,
       0
     );
     const total_daily = filteredData?.reduce(
-      (acc: number, item: any) => acc + item.alphaPerDay,
+      (acc: number, item: any) => acc + item.alpha_per_day,
       0
     );
     if (window) {
       (window as any).total_daily = total_daily;
       (window as any).my_top_miner_performance =
-        filteredData[0].minerPerformance;
+        filteredData[0].miner_performance;
       (window as any).my_top_miner_uid = filteredData[0].uid;
       (window as any).my_top_miner_grade = filteredData[0].grade;
 
@@ -87,7 +88,7 @@ const Reward = ({
         performance = 0;
       for (let i = 0; i < filteredData.length; i++) {
         grade += filteredData[i].grade;
-        performance += filteredData[i].minerPerformance;
+        performance += filteredData[i].miner_performance;
       }
 
       (window as any).my_avg_performance = performance / filteredData.length;
@@ -140,7 +141,7 @@ const Reward = ({
           </table>
           <div className="flex flex-col gap-2 mt-4 justify-center items-center">
             <span>Total Daily: {total_daily}</span>
-            <span>Total Stake: {total_stake}</span>
+            <span>Total Stake: {total_stake / 1e9}</span>
           </div>
         </div>
       </div>
