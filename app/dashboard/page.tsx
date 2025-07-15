@@ -42,7 +42,7 @@ export default async function Home() {
       )}
 
       {/* @ts-ignore prisma issue */}
-      <Params data={data} />
+      <Params miners={minerIDs} data={data} />
 
       <AddColdkey />
 

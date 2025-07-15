@@ -4,7 +4,11 @@ import { useState } from "react";
 import NewParamRow from "./Param.New.Row";
 import ParamRow, { Row } from "./Param.Row";
 
+import { fetcher } from "@/utils/fetcher";
+import useSWR from "swr";
+
 interface Props {
+  miners: number[];
   data: Row[];
 }
 
@@ -12,6 +16,21 @@ export default function Params(props: Props) {
   const [gapSort, setGapSort] = useState<"asc" | "desc">("asc");
   const [gapEthSort, setGapEthSort] = useState<"asc" | "desc">("desc");
   const [gapXAUSort, setGapXAUSort] = useState<"asc" | "desc">("desc");
+
+  const { data, error, isLoading } = useSWR("/api/getRewards", fetcher, {
+    revalidateOnFocus: false,
+    refreshInterval: 600000,
+  });
+  let filteredData = [];
+  if (!isLoading && data && !error && Array.isArray(data)) {
+    filteredData = data
+      ?.sort((a: any, b: any) => b.incentive - a.incentive)
+      ?.filter((item: any) => props.miners?.includes(item.uid))
+      ?.map((item: any, index: number) => ({
+        ...item,
+        grade: index + 1,
+      }));
+  }
 
   return (
     <table className="border border-white border-collapse mb-4">
@@ -86,9 +105,27 @@ export default function Params(props: Props) {
               return Math.abs(a.dir[a.index]) - Math.abs(b.dir[a.index]);
             return gapSort === "asc" ? b.gap - a.gap : a.gap - b.gap;
           })
-          ?.map((item, index) => (
-            <ParamRow {...item} key={item.uid} noIndex={index + 1} />
-          ))}
+          ?.map((item, index) => {
+            let rank = null;
+            if (filteredData?.length > 0) {
+              const found = filteredData.find(
+                (data: any) => data.uid === item.uid
+              );
+              if (found) {
+                rank = found.grade;
+              } else {
+                rank = null;
+              }
+            }
+            return (
+              <ParamRow
+                {...item}
+                key={item.uid}
+                noIndex={index + 1}
+                rank={rank}
+              />
+            );
+          })}
         <NewParamRow />
       </tbody>
     </table>

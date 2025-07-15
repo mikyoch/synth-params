@@ -26,7 +26,9 @@ function getHoursBetweenDates(date1: Date, date2: Date) {
   return Number(diffInMs / (1000 * 60 * 60)).toFixed(2); // Convert ms to hours
 }
 
-export default function ParamRow(props: Row & { noIndex: number }) {
+export default function ParamRow(
+  props: Row & { noIndex: number } & { rank: number | null }
+) {
   const router = useRouter();
 
   const [mode, setMode] = useState<"view" | "edit">("view");
@@ -116,7 +118,12 @@ export default function ParamRow(props: Row & { noIndex: number }) {
       className="border border-white *:text-center hover:bg-white/10 transition-all duration-150"
       key={props.uid}
     >
-      <td>{props.noIndex}</td>
+      <td>
+        <div className="flex items-center gap-2 justify-center">
+          <span className="font-semibold">{props.noIndex}</span>
+          {props.rank && props.rank < 10 && <span>/ {props.rank}</span>}
+        </div>
+      </td>
       <td>{props.uid}</td>
       <td>
         {mode === "edit" ? (
