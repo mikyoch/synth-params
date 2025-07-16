@@ -45,6 +45,11 @@ model params_duplicate {
   gapEth    Float    @default(0.008)
 }
 
+model owners {
+  id   BigInt  @id @default(autoincrement())
+  name String? @unique
+}
+
 enum Owner {
   COCO
   K2

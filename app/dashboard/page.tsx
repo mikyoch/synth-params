@@ -17,13 +17,19 @@ export default async function Home() {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
+  const owners = await prisma.owners.findMany({});
+  console.log(owners);
+
   const { data: userData } = await supabase.auth.getSession();
-  if (
-    !userData?.session ||
-    !process.env.NEXT_PUBLIC_ADMIN_GITHUB_HANDLE?.split(",").includes(
-      userData?.session?.user?.user_metadata?.user_name
-    )
-  ) {
+  const username = userData?.session?.user?.user_metadata?.user_name;
+
+  const isAdmin =
+    process.env.NEXT_PUBLIC_ADMIN_GITHUB_HANDLE?.split(",").includes(
+      username
+    ) ||
+    owners.some((owner: { user_name: any }) => owner.user_name === username);
+
+  if (!userData?.session || !isAdmin) {
     return redirect("/");
   }
 
