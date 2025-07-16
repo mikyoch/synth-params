@@ -46,7 +46,7 @@ model params_duplicate {
 }
 
 model owners {
-  id   BigInt  @id @default(autoincrement())
+  id   Int     @id @default(autoincrement())
   name String? @unique
 }
 

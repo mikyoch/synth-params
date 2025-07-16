@@ -27,7 +27,7 @@ export default async function Home() {
     process.env.NEXT_PUBLIC_ADMIN_GITHUB_HANDLE?.split(",").includes(
       username
     ) ||
-    owners.some((owner: { user_name: any }) => owner.user_name === username);
+    owners?.some((owner: any) => owner.user_name === username);
 
   if (!userData?.session || !isAdmin) {
     return redirect("/");
