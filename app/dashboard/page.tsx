@@ -18,7 +18,6 @@ export default async function Home() {
   const supabase = createClient(cookieStore);
 
   const owners = await prisma.owners.findMany({});
-  console.log(owners);
 
   const { data: userData } = await supabase.auth.getSession();
   const username = userData?.session?.user?.user_metadata?.user_name;
