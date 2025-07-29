@@ -67,6 +67,7 @@ const Score = ({ miners }: { miners: number[] }) => {
               <option value="ETH">ETH</option>
               <option value="BTC">BTC</option>
               <option value="XAU">XAU</option>
+              <option value="SOL">SOL</option>
             </select>
           </div>
           <table className="w-full table-auto">

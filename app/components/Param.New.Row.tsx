@@ -12,6 +12,8 @@ const initValue = {
   gapEth: "0",
   dirXAU: "[0]",
   gapXAU: "0",
+  dirSOL: "[0]",
+  gapSOL: "0",
   index: 0,
   owner: Owner.OBSERVER,
 };
@@ -26,6 +28,8 @@ export default function NewParamRow() {
     gapEth: string;
     dirXAU: string;
     gapXAU: string;
+    dirSOL: string;
+    gapSOL: string;
     index: number;
     owner: string;
   }>(initValue);
@@ -144,6 +148,25 @@ export default function NewParamRow() {
           placeholder="gapXAU"
           value={form.gapXAU}
           onChange={(e) => setForm({ ...form, gapXAU: e.target.value })}
+          disabled={isPending}
+        />
+      </td>
+      <td>
+        <input
+          className="text-center text-black disabled:text-white"
+          placeholder="dirSOL"
+          value={form.dirSOL}
+          onChange={(e) => setForm({ ...form, dirSOL: e.target.value })}
+          type="text"
+          disabled={isPending}
+        />
+      </td>
+      <td>
+        <input
+          className="text-center text-black disabled:text-white"
+          placeholder="gapSOL"
+          value={form.gapSOL}
+          onChange={(e) => setForm({ ...form, gapSOL: e.target.value })}
           disabled={isPending}
         />
       </td>

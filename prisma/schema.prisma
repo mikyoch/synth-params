@@ -21,6 +21,8 @@ model params {
   gapEth    Float
   dirXAU    Json     @default("[0]")
   gapXAU    Float    @default(0.0015)
+  dirSOL    Json     @default("[0]")
+  gapSOL    Float    @default(0.0065)
 }
 
 model coldkeys {

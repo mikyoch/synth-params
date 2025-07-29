@@ -16,6 +16,7 @@ export default function Params(props: Props) {
   const [gapSort, setGapSort] = useState<"asc" | "desc">("asc");
   const [gapEthSort, setGapEthSort] = useState<"asc" | "desc">("desc");
   const [gapXAUSort, setGapXAUSort] = useState<"asc" | "desc">("desc");
+  const [gapSOLSort, setGapSOLSort] = useState<"asc" | "desc">("desc");
 
   const { data, error, isLoading } = useSWR("/api/getRewards", fetcher, {
     revalidateOnFocus: false,
@@ -47,6 +48,7 @@ export default function Params(props: Props) {
               setGapSort("asc");
               setGapEthSort("desc");
               setGapXAUSort("desc");
+              setGapSOLSort("desc");
             }}
           >
             gap{" "}
@@ -59,6 +61,7 @@ export default function Params(props: Props) {
               setGapSort("desc");
               setGapEthSort("asc");
               setGapXAUSort("desc");
+              setGapSOLSort("desc");
             }}
           >
             gapEth{" "}
@@ -71,10 +74,24 @@ export default function Params(props: Props) {
               setGapSort("desc");
               setGapEthSort("desc");
               setGapXAUSort("asc");
+              setGapSOLSort("desc");
             }}
           >
             gapXAU{" "}
             <span className={gapXAUSort === "asc" ? "" : "rotate-180"}>⬆️</span>
+          </th>
+          <th>dirSOL</th>
+          <th
+            className="cursor-pointer flex justify-center items-center gap-x-1 mx-auto"
+            onClick={() => {
+              setGapSort("desc");
+              setGapEthSort("desc");
+              setGapXAUSort("desc");
+              setGapSOLSort("asc");
+            }}
+          >
+            gapSOL{" "}
+            <span className={gapSOLSort === "asc" ? "" : "rotate-180"}>⬆️</span>
           </th>
           <th>Updated at</th>
           <th>Action</th>
@@ -83,6 +100,15 @@ export default function Params(props: Props) {
       <tbody>
         {props?.data
           ?.sort((a, b) => {
+            if (gapSOLSort === "asc") {
+              if (a.gapSOL === b.gapSOL)
+                return (
+                  Math.abs(a.dirSOL[a.index]) - Math.abs(b.dirSOL[a.index])
+                );
+              return gapSOLSort === "asc"
+                ? b.gapSOL - a.gapSOL
+                : a.gapSOL - b.gapSOL;
+            }
             if (gapXAUSort === "asc") {
               if (a.gapXAU === b.gapXAU)
                 return (

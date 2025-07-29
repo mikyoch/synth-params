@@ -10,6 +10,8 @@ const MinerSchema = z.object({
   gapEth: z.string(),
   dirXAU: z.string(),
   gapXAU: z.string(),
+  dirSOL: z.string(),
+  gapSOL: z.string(),
   index: z.number(),
   owner: z.string()
 });
@@ -24,7 +26,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: parsedData.error.format() }, { status: 400 });
     }
 
-    const { uid, dir, gap, dirEth, gapEth, dirXAU, gapXAU, index, owner } = parsedData.data;
+    const { uid, dir, gap, dirEth, gapEth, dirXAU, gapXAU, dirSOL, gapSOL, index, owner } = parsedData.data;
 
     const miner = await prisma.params.findFirst({
       where: {
@@ -32,7 +34,7 @@ export async function POST(req: Request) {
       }
     })
 
-    if(miner) {
+    if (miner) {
       return NextResponse.json({ error: "Miner already exists" }, { status: 500 });
     }
 
@@ -45,6 +47,8 @@ export async function POST(req: Request) {
         gapEth: Number(gapEth),
         dirXAU: JSON.parse(dirXAU),
         gapXAU: Number(gapXAU),
+        dirSOL: JSON.parse(dirSOL),
+        gapSOL: Number(gapSOL),
         index,
         // @ts-ignore owner is ENUM from the frontend
         owner,
