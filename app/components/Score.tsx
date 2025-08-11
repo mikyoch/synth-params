@@ -11,7 +11,6 @@ const Score = ({ miners }: { miners: number[] }) => {
     fetcher,
     {
       revalidateOnFocus: false,
-      refreshInterval: 200000,
     }
   );
   if (isLoading) return <div>Loading...</div>;

@@ -20,7 +20,6 @@ export default function Params(props: Props) {
 
   const { data, error, isLoading } = useSWR("/api/getRewards", fetcher, {
     revalidateOnFocus: false,
-    refreshInterval: 600000,
   });
   let filteredData = [];
   if (!isLoading && data && !error && Array.isArray(data)) {

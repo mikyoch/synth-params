@@ -34,7 +34,6 @@ const Reward = ({
 
   const { data, error, isLoading } = useSWR("/api/getRewards", fetcher, {
     revalidateOnFocus: false,
-    refreshInterval: 200000,
   });
 
   const isColdKeyOwnedByMiner = (coldkey: string): boolean => {
