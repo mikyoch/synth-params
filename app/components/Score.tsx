@@ -5,14 +5,34 @@ import useSWR from "swr";
 
 const Score = ({ miners }: { miners: number[] }) => {
   const [asset, setAsset] = useState("ETH");
+  const [type, setType] = useState<"ONE_HOUR" | "ONE_DAY">("ONE_DAY");
 
-  const { data, error, isLoading } = useSWR(
-    `https://synth.mode.network/validation/scores/latest?asset=${asset}`,
-    fetcher,
-    {
-      revalidateOnFocus: false,
-    }
-  );
+  const buildUrl = (type: "ONE_HOUR" | "ONE_DAY", asset: string) => {
+    const endpoints = {
+      ONE_HOUR: {
+        time_increment: 60,
+        time_length: 3600,
+      },
+      ONE_DAY: {
+        time_increment: 300,
+        time_length: 86400,
+      },
+    };
+
+    const cfg = endpoints[type];
+
+    return `https://synth.mode.network/validation/scores/latest?asset=${asset}&time_increment=${cfg.time_increment}&time_length=${cfg.time_length}`;
+  };
+
+  const url = buildUrl(type, asset);
+
+  console.log(url);
+
+  const { data, error, isLoading } = useSWR(url, fetcher, {
+    revalidateOnFocus: false,
+    refreshInterval: 200000,
+  });
+
   if (isLoading) return <div>Loading...</div>;
   if (data && !error && Array.isArray(data)) {
     const scoreSortedData = data?.sort((a: any, b: any) => {
@@ -60,6 +80,16 @@ const Score = ({ miners }: { miners: number[] }) => {
             <div className="text-2xl font-bold text-center">Score</div>
             <select
               className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+              value={type}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                setType(e.target.value as "ONE_HOUR" | "ONE_DAY")
+              }
+            >
+              <option value="ONE_DAY">Day</option>
+              <option value="ONE_HOUR">Hour</option>
+            </select>
+            <select
+              className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
               value={asset}
               onChange={(e) => setAsset(e.target.value)}
             >
@@ -104,7 +134,7 @@ const Score = ({ miners }: { miners: number[] }) => {
   } else {
     return (
       <div className="w-fit p-10 border border-white rounded-2xl text-md">
-        Error loading data
+        No data available
       </div>
     );
   }
